@@ -61,7 +61,7 @@ function openDetail(id) {
   const dlg = $('detail');
   if (!dlg.open) (dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', ''));
   dlg.scrollTop = 0;
-  document.title = `${k.name} · CIO Toolkit Dashboard`;
+  document.title = `${k.name} · CIO/CTO Cockpit`;
   syncHash();
 }
 function closeDetail() {
@@ -70,7 +70,7 @@ function closeDetail() {
 }
 $('detail').addEventListener('close', () => {
   state.kpi = '';
-  document.title = 'CIO Toolkit Dashboard';
+  document.title = 'CIO/CTO Cockpit';
   syncHash();
   if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
 });
