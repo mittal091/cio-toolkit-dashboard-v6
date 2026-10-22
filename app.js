@@ -24,9 +24,9 @@ function fillFilters() {
   const byDomain = KPIS.filter(k => !state.domain || k.domain === state.domain);
   const domains = unique(byOwner.map(k => k.domain));
   const owners = unique(byDomain.map(k => k.owner)).sort((a, b) => a.localeCompare(b));
-  const dchip = (value, label, n) => `<button type="button" class="dchip" data-domain="${esc(value)}" aria-pressed="${value === state.domain}">${esc(label)} <b>${n}</b></button>`;
-  $('domains').innerHTML = dchip('', 'All domains', byOwner.length) + domains.map(d => dchip(d, d, byOwner.filter(k => k.domain === d).length)).join('');
-  $('owner').innerHTML = `<option value="">All owners (${byDomain.length})</option>` + owners.map(o => `<option value="${esc(o)}"${o === state.owner ? ' selected' : ''}>${esc(o)} (${byDomain.filter(k => k.owner === o).length})</option>`).join('');
+  const dchip = (value, label) => `<button type="button" class="dchip" data-domain="${esc(value)}" aria-pressed="${value === state.domain}">${esc(label)}</button>`;
+  $('domains').innerHTML = dchip('', 'All domains') + domains.map(d => dchip(d, d)).join('');
+  $('owner').innerHTML = `<option value="">All owners</option>` + owners.map(o => `<option value="${esc(o)}"${o === state.owner ? ' selected' : ''}>${esc(o)}</option>`).join('');
 }
 
 function render() {
@@ -41,7 +41,7 @@ function render() {
   const domains = unique(list.map(k => k.domain));
   $('view').innerHTML = domains.map((d, i) => {
     const items = list.filter(k => k.domain === d);
-    return `<section class="domain" aria-labelledby="dom-${i}"><h2 id="dom-${i}">${esc(d)} <span>${items.length} ${items.length === 1 ? 'KPI' : 'KPIs'}</span></h2><div class="grid">${items.map(k => card(k, MODEL[k.id])).join('')}</div></section>`;
+    return `<section class="domain" aria-labelledby="dom-${i}"><h2 id="dom-${i}">${esc(d)}</h2><div class="grid">${items.map(k => card(k, MODEL[k.id])).join('')}</div></section>`;
   }).join('');
 }
 

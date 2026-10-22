@@ -20,7 +20,7 @@ const names = d => [...d.querySelectorAll('.card .c-name')].map(e => e.textConte
   const allDomains = [...new Set(kpis.map(k => k.domain))];
   ok(d.querySelector('label[for], .filters label').textContent.trim().startsWith('Owner') && !/Suggested/.test(d.body.textContent), 'owner filter is labelled "Owner"');
   ok(chips().length === 8 && chips()[0].textContent.trim().startsWith('All domains'), 'domain buttons: all + 7');
-  ok(chips().every(c => /\d+$/.test(c.textContent.trim())), 'each domain button shows its KPI count');
+  ok(chips().every(c => !/\d/.test(c.textContent)) && ![...osel.options].some(o => /\d/.test(o.text)) && ![...d.querySelectorAll('.domain > h2')].some(h => /\d/.test(h.textContent)), 'no counts on domain buttons, owner options or section headings');
   ok(chips()[0].getAttribute('aria-pressed') === 'true', 'All domains is pressed at the start');
   ok(osel.options.length === 12 && [...osel.options].slice(1).every(o => kpis.some(k => k.owner === o.value)), 'owner drop-down: all + 11 owners');
   for (const dom of allDomains) {

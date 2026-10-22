@@ -44,10 +44,13 @@ function columns(b) {
 
 function line(b) {
   const w = 560, h = 190, l = 56, r = 16, t = 20, bt = 28, iw = w - l - r, ih = h - t - bt, n = b.values.length;
-  const lo = Math.min(...b.values), hi = Math.max(...b.values), pad = (hi - lo || 1) * 0.25;
-  const min = lo - pad, max = hi + pad, y = v => t + ih * (1 - (v - min) / (max - min)), x = i => l + (iw * i) / (n - 1);
+  /* Round tick values (1, 2, 2.5 or 5 times a power of ten) that enclose the data, 3 to 6 gridlines. */
+  const lo = Math.min(...b.values), hi = Math.max(...b.values), span = (hi - lo || 1) * 1.3;
+  const raw = span / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= raw);
+  const min = Math.floor((lo - (hi - lo || 1) * 0.1) / step) * step, max = Math.max(Math.ceil((hi + (hi - lo || 1) * 0.1) / step) * step, min + step * 2);
+  const y = v => t + ih * (1 - (v - min) / (max - min)), x = i => l + (iw * i) / (n - 1);
   let s = '';
-  for (let i = 0; i <= 3; i++) { const v = min + ((max - min) / 3) * i; s += `<line class="grid" x1="${l}" x2="${w - r}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${esc(b.fmt(v))}</text>`; }
+  for (let v = min; v <= max + step / 1000; v += step) { s +=`<line class="grid" x1="${l}" x2="${w - r}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${esc(b.fmt(v))}</text>`; }
   const d = 'M' + b.values.map((v, i) => `${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join('L');
   s += `<path class="ln" d="${d}"/>`;
   b.values.forEach((v, i) => {
