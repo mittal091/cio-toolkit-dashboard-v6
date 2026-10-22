@@ -26,6 +26,13 @@ h1{font-size:22px;font-weight:700;letter-spacing:-.01em}
 .filters{display:flex;gap:12px;flex-wrap:wrap}
 .filters label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted)}
 .filters select{min-width:210px;max-width:100%;background:var(--card);border:1px solid var(--ctrl);border-radius:8px;padding:8px 32px 8px 10px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
+.dom-row{padding-bottom:14px}
+.dchips{display:flex;gap:8px;flex-wrap:wrap}
+.dchip{background:var(--card);border:1px solid var(--ctrl);border-radius:999px;padding:6px 14px;font-weight:600;font-size:13.5px;cursor:pointer;min-height:34px;white-space:nowrap}
+.dchip b{font-weight:700;color:var(--muted);margin-left:4px}
+.dchip:hover{border-color:var(--accent)}
+.dchip[aria-pressed="true"]{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-ink)}
+.dchip[aria-pressed="true"] b{color:var(--accent-ink)}
 .meta{margin:14px 0 8px;font-size:12.5px;color:var(--muted)}
 
 /* summary strip */
@@ -76,7 +83,7 @@ dialog#detail[open]{animation:slide .18s ease-out}
 .d-why{margin-top:8px;font-weight:600}
 .d-head .chg{margin-top:6px}
 section>h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.d-def p{color:var(--ink)}
+.d-def{color:var(--muted);margin:0 0 14px;max-width:62ch}
 .block{margin-bottom:22px}
 .block h4{font-size:14px;font-weight:600;margin-bottom:8px}
 .note{font-size:12.5px;color:var(--muted);margin-top:6px}
@@ -126,12 +133,6 @@ tbody tr:last-child td{border-bottom:0}
 .tab.on b{color:var(--accent-ink)}
 .tabpanel[hidden]{display:none}
 
-/* about */
-.about{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
-.about summary{cursor:pointer;color:var(--accent);font-weight:600;padding:4px 0}
-.about-row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
-.about-row b{color:var(--muted);font-weight:600}
-
 @media(max-width:720px){
   .wrap{padding-inline:16px}
   .top-in{align-items:stretch}
@@ -141,7 +142,7 @@ tbody tr:last-child td{border-bottom:0}
   dialog#detail{width:100vw;padding:18px 16px 32px;border-left:0}
   .brow{grid-template-columns:1fr;gap:4px}
   .bv{text-align:left}
-  .about-row{grid-template-columns:1fr;gap:2px}
+  .dchips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;margin-inline:-16px;padding-inline:16px;scrollbar-width:thin}
   .d-val{font-size:30px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

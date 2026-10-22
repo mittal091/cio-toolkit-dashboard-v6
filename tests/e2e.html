@@ -14,25 +14,33 @@ const names = d => [...d.querySelectorAll('.card .c-name')].map(e => e.textConte
   ok(d.querySelectorAll('.card').length === 18, '18 cards on the overview');
   ok(JSON.stringify(names(d).sort()) === JSON.stringify(kpis.map(k => k.name).sort()), 'card names match the Excel names exactly');
   ok(d.querySelectorAll('.domain').length === 7, '7 domain sections');
-  const dsel = d.getElementById('domain'), osel = d.getElementById('owner');
-  ok([...dsel.options].length === 8, 'domain drop-down: all + 7');
-  ok([...osel.options].map(o => o.text).slice(1).every(t => kpis.some(k => k.owner === t)) && osel.options.length === 13, 'owner drop-down: all + 12 Excel owners');
-  // every domain shows all its KPIs, and nothing else
-  for (const dom of new Set(kpis.map(k => k.domain))) {
-    dsel.value = dom; dsel.dispatchEvent(new w.Event('change')); await wait(100);
+  const osel = d.getElementById('owner');
+  const chips = () => [...d.querySelectorAll('#domains [data-domain]')];
+  const pick = async dom => { chips().find(c => c.dataset.domain === dom).click(); await wait(100); };
+  const allDomains = [...new Set(kpis.map(k => k.domain))];
+  ok(d.querySelector('label[for], .filters label').textContent.trim().startsWith('Owner') && !/Suggested/.test(d.body.textContent), 'owner filter is labelled "Owner"');
+  ok(chips().length === 8 && chips()[0].textContent.trim().startsWith('All domains'), 'domain buttons: all + 7');
+  ok(chips().every(c => /\d+$/.test(c.textContent.trim())), 'each domain button shows its KPI count');
+  ok(chips()[0].getAttribute('aria-pressed') === 'true', 'All domains is pressed at the start');
+  ok(osel.options.length === 12 && [...osel.options].slice(1).every(o => kpis.some(k => k.owner === o.value)), 'owner drop-down: all + 11 owners');
+  for (const dom of allDomains) {
+    await pick(dom);
     const exp = kpis.filter(k => k.domain === dom).map(k => k.name).sort();
     ok(JSON.stringify(names(d).sort()) === JSON.stringify(exp), `domain "${dom}" shows exactly its ${exp.length} KPIs`);
+    ok(chips().find(c => c.dataset.domain === dom).getAttribute('aria-pressed') === 'true' && d.activeElement.dataset.domain === dom, `domain "${dom}" is pressed and keeps focus`);
   }
-  dsel.value = ''; dsel.dispatchEvent(new w.Event('change'));
+  await pick('');
   for (const own of new Set(kpis.map(k => k.owner))) {
     osel.value = own; osel.dispatchEvent(new w.Event('change')); await wait(100);
     const exp = kpis.filter(k => k.owner === own).map(k => k.name).sort();
     ok(JSON.stringify(names(d).sort()) === JSON.stringify(exp), `owner "${own}" shows exactly its KPIs`);
   }
-  // cascading: choose CISO, domains offered must shrink
   osel.value = 'CISO'; osel.dispatchEvent(new w.Event('change')); await wait(100);
-  ok(d.getElementById('domain').options.length === 2 && d.getElementById('domain').options[1].text === 'Security & Risk', 'owner CISO limits domains to Security & Risk');
+  ok(chips().length === 2 && chips()[1].dataset.domain === 'Security & Risk', 'owner CISO limits the domain buttons to Security & Risk');
   osel.value = ''; osel.dispatchEvent(new w.Event('change')); await wait(100);
+  await pick('Financial');
+  ok([...d.getElementById('owner').options].slice(1).map(o => o.value).sort().join('|') === ['CIO Office', 'Finance', 'FinOps Lead', 'Procurement'].sort().join('|'), 'domain Financial limits the owner drop-down to its 4 owners');
+  await pick('');
   // open, tabs, escape, focus return
   const card = d.querySelector('[data-kpi="application-portfolio-time"]'); card.focus(); card.click(); await wait(150);
   const dlg = d.getElementById('detail');
@@ -55,6 +63,7 @@ const names = d => [...d.querySelectorAll('.card .c-name')].map(e => e.textConte
   // deep link
   f = await load('#domain=Financial&kpi=cloud-spend-and-waste'); d = f.contentDocument;
   ok(d.getElementById('detail').open && d.querySelectorAll('.card').length === 4, 'deep link opens KPI with domain filter');
+  ok(!/About this KPI|Data source|How AI helps/.test(d.getElementById('detail-body').textContent) && !!d.querySelector('#detail-body .d-def'), 'detail has a plain description and no "About this KPI"');
   f.remove();
   f = await load('#kpi=nonsense'); d = f.contentDocument;
   ok(!d.getElementById('detail').open && d.querySelectorAll('.card').length === 18, 'unknown KPI in link is ignored');

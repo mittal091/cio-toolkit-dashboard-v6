@@ -1,0 +1,20 @@
+{
+  "run-grow-transform-spend-mix": "How IT spend splits between keeping things running (Run), growing the business (Grow) and changing the business (Transform).",
+  "roadmap-delivery-vs-plan": "How many of the milestones we committed to were delivered on the planned date.",
+  "it-spend-as-pct-of-revenue": "IT spend as a share of company revenue, month by month.",
+  "budget-vs-actual-and-forecast-variance": "How actual IT spend compares with budget so far, and where the year is expected to end.",
+  "cloud-spend-and-waste": "What we pay for cloud each week, and how much of it is unused or oversized.",
+  "contract-renewals-due-6-12-months": "Contracts that come up for renewal in the next 6 to 12 months, with the date we must tell the vendor by.",
+  "project-health-rag": "Projects reported as Green (on track), Amber (some concerns) or Red (in trouble), plus Green ones whose reports hint at delays.",
+  "deployment-frequency": "How often new software is released to live systems.",
+  "technical-debt-trend": "How much past shortcuts in our applications slow down future work. Lower is better.",
+  "availability-vs-sla-critical-services": "How much of the time critical services were up, compared with the agreed target.",
+  "p1-p2-incidents-and-mttr": "Serious incidents and the average time it takes to restore service.",
+  "critical-vulnerabilities-open-patch-sla": "Serious security weaknesses that are still open, and how many were patched within the agreed deadline.",
+  "mfa-and-privileged-access-coverage": "Share of accounts protected by multi-factor authentication, including admin accounts that have extra powers.",
+  "audit-findings-open-and-overdue": "Issues raised by auditors that are still open, and how many are past their due date.",
+  "end-of-life-legacy-footprint": "Systems whose vendor no longer provides support or security fixes.",
+  "application-portfolio-time": "Every application placed in one of four groups: keep as is (Tolerate), keep and grow (Invest), move to a better platform (Migrate) or retire (Eliminate).",
+  "ai-use-cases-by-stage": "AI ideas, pilots and live use cases, to show how many are moving from idea to production.",
+  "ai-adoption-and-realised-value": "How many people actively use AI tools, and the yearly benefit: measured from data versus self-reported."
+}

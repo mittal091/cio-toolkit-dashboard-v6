@@ -5,10 +5,11 @@ import { detail } from './components/detail.js';
 
 const $ = id => document.getElementById(id);
 const state = { domain: '', owner: '', kpi: '' };
-let KPIS = [], MODEL = {}, ASOF = '', lastFocus = null;
+let KPIS = [], MODEL = {}, DESC = {}, ASOF = '', lastFocus = null;
 
 async function load() {
-  const [kpis, data, seq] = await Promise.all(['data/kpis.json', 'data/kpi-data.json', 'data/sequence.json'].map(p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.json(); })));
+  const [kpis, data, seq, desc] = await Promise.all(['data/kpis.json', 'data/kpi-data.json', 'data/sequence.json', 'data/descriptions.json'].map(p => fetch(p).then(r => { if (!r.ok) throw new Error(p); return r.json(); })));
+  DESC = desc;
   KPIS = seq.map(id => kpis.find(k => k.id === id)).filter(Boolean);
   ASOF = data.asOf;
   MODEL = buildAll(KPIS, data, ASOF);
@@ -16,12 +17,16 @@ async function load() {
 
 const unique = list => [...new Set(list)];
 
-/* The two drop-downs only offer choices that have at least one KPI, so no combination is empty. */
+/* Domain buttons and the owner drop-down only offer choices that have at least one KPI, so no combination is empty.
+   Each choice shows how many KPIs it would give. */
 function fillFilters() {
-  const domains = unique(KPIS.filter(k => !state.owner || k.owner === state.owner).map(k => k.domain));
-  const owners = unique(KPIS.filter(k => !state.domain || k.domain === state.domain).map(k => k.owner)).sort((a, b) => a.localeCompare(b));
-  $('domain').innerHTML = `<option value="">All domains</option>` + domains.map(d => `<option${d === state.domain ? ' selected' : ''}>${esc(d)}</option>`).join('');
-  $('owner').innerHTML = `<option value="">All owners</option>` + owners.map(o => `<option${o === state.owner ? ' selected' : ''}>${esc(o)}</option>`).join('');
+  const byOwner = KPIS.filter(k => !state.owner || k.owner === state.owner);
+  const byDomain = KPIS.filter(k => !state.domain || k.domain === state.domain);
+  const domains = unique(byOwner.map(k => k.domain));
+  const owners = unique(byDomain.map(k => k.owner)).sort((a, b) => a.localeCompare(b));
+  const dchip = (value, label, n) => `<button type="button" class="dchip" data-domain="${esc(value)}" aria-pressed="${value === state.domain}">${esc(label)} <b>${n}</b></button>`;
+  $('domains').innerHTML = dchip('', 'All domains', byOwner.length) + domains.map(d => dchip(d, d, byOwner.filter(k => k.domain === d).length)).join('');
+  $('owner').innerHTML = `<option value="">All owners (${byDomain.length})</option>` + owners.map(o => `<option value="${esc(o)}"${o === state.owner ? ' selected' : ''}>${esc(o)} (${byDomain.filter(k => k.owner === o).length})</option>`).join('');
 }
 
 function render() {
@@ -52,7 +57,7 @@ function openDetail(id) {
   const k = KPIS.find(x => x.id === id);
   if (!k) return;
   state.kpi = id;
-  $('detail-body').innerHTML = detail(k, MODEL[id]);
+  $('detail-body').innerHTML = detail(k, MODEL[id], DESC[id]);
   const dlg = $('detail');
   if (!dlg.open) (dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', ''));
   dlg.scrollTop = 0;
@@ -96,13 +101,20 @@ document.addEventListener('keydown', e => {
 });
 
 function onFilter() {
-  state.domain = $('domain').value;
   state.owner = $('owner').value;
   syncHash();
   render();
 }
-$('domain').addEventListener('change', onFilter);
 $('owner').addEventListener('change', onFilter);
+$('domains').addEventListener('click', e => {
+  const b = e.target.closest('[data-domain]');
+  if (!b) return;
+  state.domain = b.dataset.domain;
+  syncHash();
+  render();
+  const again = [...$('domains').querySelectorAll('[data-domain]')].find(x => x.dataset.domain === state.domain);
+  if (again) again.focus(); // the buttons are redrawn, so put focus back on the same one
+});
 
 (async function main() {
   try { await load(); } catch (e) { $('view').innerHTML = '<p class="empty">The data could not be loaded. Open this page from a web server, not directly from the file.</p>'; return; }

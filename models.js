@@ -98,13 +98,13 @@ export const MODELS = {
     const idle = sum(d.teams.map(t => t.idleK)), idleShare = share(idle, w[last]);
     const itWeekly = (d.monthlyItSpendM * 1000 * 4) / 4.345, cloud4 = sum(w.slice(-4));
     return {
-      value: moneyK(w[last]), sub: `cloud cost this week. ${Math.round(idleShare)}% is idle or over-provisioned`,
-      status: status('watch', 'About 1 in 5 dollars goes on idle or oversized resources'),
+      value: moneyK(w[last]), sub: `cloud cost this week. ${Math.round(idleShare)}% is unused or oversized`,
+      status: status('watch', 'About 1 in 5 dollars goes on unused or oversized resources'),
       delta: change(w[last], w[last - 1], 'down', v => moneyK(v)),
       blocks: [
-        { type: 'figures', items: [{ label: 'Cloud cost this week', value: moneyK(w[last]) }, { label: 'Last 12 weeks', value: moneyM(sum(w) / 1000, 2) }, { label: 'Idle or over-provisioned', value: pct(idleShare) }, { label: 'Share of all IT spend', value: '~' + pct(share(cloud4, itWeekly)), hint: 'Last 4 weeks. Cloud is part of overall IT spend' }] },
+        { type: 'figures', items: [{ label: 'Cloud cost this week', value: moneyK(w[last]) }, { label: 'Last 12 weeks', value: moneyM(sum(w) / 1000, 2) }, { label: 'Unused or oversized', value: pct(idleShare) }, { label: 'Share of all IT spend', value: '~' + pct(share(cloud4, itWeekly)), hint: 'Last 4 weeks. Cloud is part of overall IT spend' }] },
         { type: 'columns', title: 'Cloud cost per week', labels: shared.weeks, values: w, highlight: [8], fmt: moneyK, note: d.peakNote },
-        { type: 'table', title: 'By team', columns: [{ label: 'Team' }, { label: 'This week', right: true }, { label: '4 weeks ago', right: true }, { label: 'Change', right: true }, { label: 'Idle share', right: true }],
+        { type: 'table', title: 'By team', columns: [{ label: 'Team' }, { label: 'This week', right: true }, { label: '4 weeks ago', right: true }, { label: 'Change', right: true }, { label: 'Unused share', right: true }],
           rows: d.teams.map(t => [t.name, moneyK(t.thisWeekK), moneyK(t.fourWeeksAgoK), { text: t.thisWeekK === t.fourWeeksAgoK ? 'No change' : (t.thisWeekK > t.fourWeeksAgoK ? '+' : '-') + moneyK(Math.abs(t.thisWeekK - t.fourWeeksAgoK)), tone: t.thisWeekK > t.fourWeeksAgoK ? 'bad' : 'flat' }, pct(share(t.idleK, t.thisWeekK))]) },
         { type: 'table', title: 'Biggest savings to look at', columns: [{ label: 'What' }, { label: 'Team' }, { label: 'Estimated saving a year', right: true }], rows: d.waste.map(x => [x.item, x.team, moneyK(x.yearK)]) }
       ]
@@ -162,13 +162,13 @@ export const MODELS = {
     const mean = sum(d.apps.map(a => a.now)) / d.apps.length, prev = sum(d.apps.map(a => a.last)) / d.apps.length;
     const worst = [...d.apps].sort((a, b) => b.now - a.now)[0];
     return {
-      value: pct(mean, 1), sub: 'debt ratio across main applications. Lower is better',
+      value: pct(mean, 1), sub: 'technical debt across main applications. Lower is better',
       status: status('good', 'It has fallen for five quarters in a row'),
       delta: change(mean, prev, 'down', pts),
       blocks: [
-        { type: 'figures', items: [{ label: 'Debt ratio now', value: pct(mean, 1) }, { label: 'Highest', value: pct(worst.now, 1), hint: worst.name }, { label: 'Six quarters ago', value: pct(d.ratio[0], 1) }] },
-        { type: 'line', title: 'Debt ratio by quarter', labels: d.quarters, values: [...d.ratio.slice(0, -1), mean], fmt: v => v.toFixed(1) + '%' },
-        { type: 'table', title: 'By application', columns: [{ label: 'Application' }, { label: 'Debt ratio', right: true }, { label: 'Change', right: true }, { label: 'Biggest problem area' }],
+        { type: 'figures', items: [{ label: 'Technical debt now', value: pct(mean, 1) }, { label: 'Highest', value: pct(worst.now, 1), hint: worst.name }, { label: 'Six quarters ago', value: pct(d.ratio[0], 1) }] },
+        { type: 'line', title: 'Technical debt by quarter', labels: d.quarters, values: [...d.ratio.slice(0, -1), mean], fmt: v => v.toFixed(1) + '%' },
+        { type: 'table', title: 'By application', columns: [{ label: 'Application' }, { label: 'Technical debt', right: true }, { label: 'Change', right: true }, { label: 'Biggest problem area' }],
           rows: d.apps.map(a => [a.name, pct(a.now, 1), { text: a.now === a.last ? 'No change' : (a.now < a.last ? '▼ ' : '▲ ') + Math.abs(a.now - a.last).toFixed(1), tone: a.now < a.last ? 'good' : 'bad' }, a.hotspot]) }
       ]
     };
@@ -228,11 +228,11 @@ export const MODELS = {
     const accounts = sum(d.groups.map(g => g.accounts)), covered = sum(d.groups.map(g => g.covered));
     const now = share(covered, accounts), priv = d.groups.find(g => g.privileged), privPct = share(priv.covered, priv.accounts);
     return {
-      value: pct(now), sub: `of accounts use MFA. Privileged accounts: ${Math.round(privPct)}%`,
-      status: status('watch', `Privileged accounts are at ${Math.round(privPct)}%`),
+      value: pct(now), sub: `of accounts use MFA. Admin accounts: ${Math.round(privPct)}%`,
+      status: status('watch', `${priv.accounts - priv.covered} admin accounts still have no MFA`),
       delta: change(now, d.priorPct, 'up', pts),
       blocks: [
-        { type: 'figures', items: [{ label: 'All accounts', value: pct(now) }, { label: 'Privileged accounts', value: pct(privPct) }, { label: 'Accounts without MFA', value: int(accounts - covered) }] },
+        { type: 'figures', items: [{ label: 'All accounts', value: pct(now) }, { label: 'Admin accounts', value: pct(privPct) }, { label: 'Accounts without MFA', value: int(accounts - covered) }] },
         { type: 'bars', title: 'Coverage by account type', rows: d.groups.map(g => ({ label: g.name, text: pct(share(g.covered, g.accounts)), pct: share(g.covered, g.accounts), tone: share(g.covered, g.accounts) >= 95 ? 'good' : share(g.covered, g.accounts) >= 90 ? 'warn' : 'bad' })) },
         { type: 'table', title: 'By account type', columns: [{ label: 'Account type' }, { label: 'Accounts', right: true }, { label: 'With MFA', right: true }, { label: 'Coverage', right: true }, { label: 'Without MFA', right: true }],
           rows: d.groups.map(g => [g.name, int(g.accounts), int(g.covered), pct(share(g.covered, g.accounts), 1), int(g.accounts - g.covered)]) }
@@ -339,4 +339,4 @@ export function buildAll(kpis, data, asOf) {
   }
   return out;
 }
-export const STATUS_WORDS = { good: 'On track', watch: 'Watch', risk: 'At risk' };
+export const STATUS_WORDS = { good: 'On track', watch: 'Needs attention', risk: 'At risk' };

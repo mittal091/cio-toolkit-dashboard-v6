@@ -16,5 +16,5 @@ export function card(k, m) {
   return `<button type="button" class="card" data-kpi="${esc(k.id)}" aria-label="View details: ${esc(k.name)}">` +
     `<span class="c-top"><span class="c-name">${esc(k.name)}</span>${statusPill(m.status.level)}</span>` +
     `<span class="c-val">${esc(m.value)}</span><span class="c-sub">${esc(m.sub)}</span>${deltaHtml(m)}` +
-    `<span class="c-foot"><span>Owner: ${esc(k.owner)}</span><span class="c-more">View details ›</span></span></button>`;
+    `<span class="c-foot"><span>Owner: ${esc(k.owner)}</span><span class="c-more">Details ›</span></span></button>`;
 }

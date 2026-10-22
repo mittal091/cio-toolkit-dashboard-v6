@@ -9,7 +9,7 @@
 
   "run-grow-transform-spend-mix": {
     "categories": [
-      { "name": "Run", "meaning": "Keep the lights on", "lines": [
+      { "name": "Run", "meaning": "Keep things running", "lines": [
         { "area": "Application support", "m": 27.5 }, { "area": "Hosting and data centres", "m": 22.4 },
         { "area": "Licences and subscriptions", "m": 16.0 }, { "area": "Network and workplace", "m": 11.0 } ] },
       { "name": "Grow", "meaning": "Extend what we have", "lines": [
@@ -35,7 +35,7 @@
     ],
     "late": [
       { "milestone": "Test environment ready", "programme": "Payments Modernisation", "planned": "2026-09-30", "now": "2026-10-28", "reason": "Test environment delayed" },
-      { "milestone": "Vendor integration complete", "programme": "Payments Modernisation", "planned": "2026-10-15", "now": "2026-11-12", "reason": "Vendor delivery slipped one sprint" },
+      { "milestone": "Vendor integration complete", "programme": "Payments Modernisation", "planned": "2026-10-15", "now": "2026-11-12", "reason": "Vendor delivery was a few weeks late" },
       { "milestone": "Go-live readiness review", "programme": "Payments Modernisation", "planned": "2026-10-31", "now": "2026-11-30", "reason": "Depends on vendor integration" },
       { "milestone": "Finance data migration", "programme": "ERP migration", "planned": "2026-09-30", "now": "2026-11-15", "reason": "Data clean-up took longer" },
       { "milestone": "Cutover rehearsal 1", "programme": "ERP migration", "planned": "2026-10-15", "now": "2026-12-10", "reason": "Waiting on the data platform" },
@@ -74,11 +74,11 @@
     ],
     "monthlyItSpendM": 10.7,
     "waste": [
-      { "item": "24 idle compute instances", "team": "Payments API", "yearK": 186 },
-      { "item": "9 over-sized databases", "team": "Data platform", "yearK": 92 },
-      { "item": "Unattached storage volumes", "team": "Everything else", "yearK": 64 },
+      { "item": "24 unused servers", "team": "Payments API", "yearK": 186 },
+      { "item": "9 oversized databases", "team": "Data platform", "yearK": 92 },
+      { "item": "Unused storage", "team": "Everything else", "yearK": 64 },
       { "item": "Test environments left on at night", "team": "Customer portal", "yearK": 41 },
-      { "item": "Unused reserved capacity", "team": "Data platform", "yearK": 38 }
+      { "item": "Pre-paid capacity not used", "team": "Data platform", "yearK": 38 }
     ]
   },
 
@@ -156,14 +156,14 @@
     "incidents": [9, 11, 8, 10, 9, 12, 10, 11, 19, 15, 13, 14],
     "mttrHours": [2.6, 2.8, 2.5, 2.7, 2.4, 2.9, 2.6, 2.8, 4.6, 4.1, 3.4, 3.1],
     "largest": [
-      { "id": "INC-48211", "service": "Payments", "started": "2026-10-06", "hours": 5.4, "cause": "Login timeout after release R-214" },
-      { "id": "INC-48230", "service": "Payments", "started": "2026-10-08", "hours": 4.1, "cause": "Login timeout after release R-214" },
+      { "id": "INC-48211", "service": "Payments", "started": "2026-10-06", "hours": 5.4, "cause": "Login timeouts after the October release" },
+      { "id": "INC-48230", "service": "Payments", "started": "2026-10-08", "hours": 4.1, "cause": "Login timeouts after the October release" },
       { "id": "INC-48302", "service": "Customer portal", "started": "2026-10-12", "hours": 3.6, "cause": "Database connection limit" },
       { "id": "INC-48377", "service": "Core ERP", "started": "2026-10-14", "hours": 2.8, "cause": "Vendor patch" },
       { "id": "INC-48410", "service": "Email", "started": "2026-10-16", "hours": 1.2, "cause": "Mail queue backlog" }
     ],
     "repeat": [
-      { "problem": "Payments login timeouts", "tickets": 7, "link": "Release R-214" },
+      { "problem": "Payments login timeouts", "tickets": 7, "link": "October release" },
       { "problem": "Batch job failures", "tickets": 4, "link": "Vendor patch in week 8" },
       { "problem": "VPN drops", "tickets": 3, "link": "No link found yet" }
     ]
@@ -189,7 +189,7 @@
     "groups": [
       { "name": "Employees", "accounts": 8400, "covered": 8148 },
       { "name": "Contractors", "accounts": 1300, "covered": 1131 },
-      { "name": "Privileged accounts", "accounts": 400, "covered": 361, "privileged": true }
+      { "name": "Admin (privileged) accounts", "accounts": 400, "covered": 361, "privileged": true }
     ],
     "priorPct": 94.5
   },
