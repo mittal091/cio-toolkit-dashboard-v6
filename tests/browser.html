@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>v6 browser tests</title></head>
+<body><pre id="out">running</pre>
+<script type="module">
+import { buildAll } from '../models.js';
+import { card } from '../components/card.js';
+import { detail } from '../components/detail.js';
+const out = [];
+let fails = 0;
+const ok = (c, m) => { if (!c) fails++; out.push((c ? 'PASS ' : 'FAIL ') + m); };
+const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+try {
+  const j = p => fetch(p).then(r => r.json());
+  const [kpis, data, seq] = await Promise.all([j('../data/kpis.json'), j('../data/kpi-data.json'), j('../data/sequence.json')]);
+  const list = seq.map(id => kpis.find(k => k.id === id));
+  ok(kpis.length === 18 && list.length === 18 && list.every(Boolean), '18 KPIs, sequence covers all');
+  ok(new Set(kpis.map(k => k.name)).size === 18, 'names unique');
+  ok(new Set(kpis.map(k => k.domain)).size === 7, '7 domains');
+  ok(kpis.find(k => /contract renewals/i.test(k.name)).domain === 'Financial', 'Contract renewals is in Financial');
+  const doms = []; list.forEach(k => { if (!doms.includes(k.domain)) doms.push(k.domain); });
+  ok(doms.every(d => { const idx = list.map((k, i) => k.domain === d ? i : -1).filter(i => i >= 0); return idx[idx.length - 1] - idx[0] + 1 === idx.length; }), 'each domain is one contiguous run in the sequence');
+  ok(seq.indexOf('cloud-spend-and-waste') > seq.indexOf('it-spend-as-pct-of-revenue'), 'overall spend before cloud spend');
+  const M = buildAll(kpis, data, data.asOf);
+  const banned = /error budget|waterfall|landing|polarity|\bpins?\b|AC actual|DORA|proposed KPI|—/i;
+  let rendered = 0;
+  for (const k of list) {
+    try {
+      const m = M[k.id]; const c = card(k, m); const d = detail(k, m);
+      ok(!!m.value && c.includes(k.name) && d.includes('What this shows'), `renders: ${k.name}`);
+      ok(!banned.test(c + d.replace(k.definition, '')), `plain wording: ${k.name}`);
+      ok(/<table|data-tabset|class="bars"|class="figs"|class="chart"/.test(d), `drill-down content: ${k.name}`);
+      rendered++;
+    } catch (e) { ok(false, `render ${k.id}: ${e.message}`); }
+  }
+  const tp = M['application-portfolio-time'];
+  const tabs = tp.blocks.find(b => b.type === 'tabs');
+  ok(tabs && tabs.tabs.length === 4, 'TIME has 4 categories');
+  const tot = tabs.tabs.reduce((a, t) => a + (t.count ?? 0), 0);
+  ok(tot === 150, 'TIME categories total 150 (got ' + tot + ')');
+  const el = tabs.tabs.find(t => /eliminate/i.test(t.label || t.name || ''));
+  ok(el && el.count === 5, 'Eliminate = 5');
+  const css = await fetch('../styles.css').then(r => r.text());
+  const v = n => css.match(new RegExp('--' + n + ':(#[0-9a-f]{6})', 'i'))[1];
+  [['ink', 'card'], ['muted', 'card'], ['muted', 'bg'], ['good', 'good-bg'], ['warn', 'warn-bg'], ['bad', 'bad-bg'], ['accent', 'card'], ['accent-ink', 'accent-bg'], ['muted', 'flat-bg']].forEach(([a, b]) => ok(cr(v(a), v(b)) >= 4.5, `text contrast ${a} on ${b} ${cr(v(a), v(b)).toFixed(1)}`));
+  ['c1', 'ok', 'amb', 'red', 'ctrl'].forEach(a => ok(cr(v(a), v('card')) >= 3, `graphic contrast ${a} ${cr(v(a), v('card')).toFixed(1)}`));
+} catch (e) { ok(false, 'fatal ' + e.message + ' ' + (e.stack || '').split('\n')[1]); }
+out.push(fails ? `FAILED ${fails}` : 'ALL PASSED');
+document.getElementById('out').textContent = out.join('\n');
+</script></body></html>

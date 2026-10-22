@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><title>v6 overflow</title><pre id="out">running</pre>
+<style>iframe{border:0;position:absolute;left:-9999px;top:0}</style>
+<script>
+const ids = ['', 'run-grow-transform-spend-mix','roadmap-delivery-vs-plan','it-spend-as-pct-of-revenue','budget-vs-actual-and-forecast-variance','cloud-spend-and-waste','contract-renewals-due-6-12-months','project-health-rag','deployment-frequency','technical-debt-trend','availability-vs-sla-critical-services','p1-p2-incidents-and-mttr','critical-vulnerabilities-open-patch-sla','mfa-and-privileged-access-coverage','audit-findings-open-and-overdue','application-portfolio-time','end-of-life-legacy-footprint','ai-use-cases-by-stage','ai-adoption-and-realised-value'];
+const widths = [360, 768, 1280];
+const out = []; let fails = 0;
+function measure(w, id) {
+  return new Promise(res => {
+    const f = document.createElement('iframe');
+    f.style.width = w + 'px'; f.style.height = '900px';
+    f.src = '../index.html' + (id ? '#kpi=' + id : '');
+    f.onload = () => setTimeout(() => {
+      const d = f.contentDocument, de = d.documentElement;
+      const dlg = d.getElementById('detail');
+      let worst = null;
+      const root = id ? dlg : d.querySelector('main');
+      root.querySelectorAll('*').forEach(e => {
+        if (e.closest('.tw,.chart')) return;
+        const r = e.getBoundingClientRect();
+        if (r.width && r.right > w + 1 && (!worst || r.right > worst.right)) worst = { right: Math.round(r.right), tag: e.tagName + '.' + e.className };
+      });
+      const dsw = id ? dlg.scrollWidth > dlg.clientWidth + 1 : false;
+      res({ w, id, over: de.scrollWidth > de.clientWidth || dsw, open: id ? dlg.open : true, worst });
+      f.remove();
+    }, 900);
+    document.body.appendChild(f);
+  });
+}
+(async () => {
+  for (const w of widths) for (const id of ids) {
+    const r = await measure(w, id);
+    const bad = r.over || r.worst || !r.open; if (bad) fails++;
+    if (bad) out.push(`FAIL ${w}px ${id || 'overview'} open=${r.open} ${r.worst ? r.worst.tag + ' to ' + r.worst.right : 'page scrolls sideways'}`);
+  }
+  out.push(fails ? `FAILED ${fails}` : `ALL PASSED (${widths.length * ids.length} views)`);
+  document.getElementById('out').textContent = out.join('\n');
+})();
+</script>

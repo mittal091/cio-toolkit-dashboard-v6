@@ -1,0 +1,309 @@
+{
+  "asOf": "2026-10-19",
+  "shared": {
+    "monthlyBudgetM": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+    "monthlyActualM": [9.8, 10.1, 10.2, 10.3, 10.3, 10.7],
+    "months": ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+    "weeks": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12"]
+  },
+
+  "run-grow-transform-spend-mix": {
+    "categories": [
+      { "name": "Run", "meaning": "Keep the lights on", "lines": [
+        { "area": "Application support", "m": 27.5 }, { "area": "Hosting and data centres", "m": 22.4 },
+        { "area": "Licences and subscriptions", "m": 16.0 }, { "area": "Network and workplace", "m": 11.0 } ] },
+      { "name": "Grow", "meaning": "Extend what we have", "lines": [
+        { "area": "Product and platform enhancements", "m": 15.2 }, { "area": "Analytics and data", "m": 7.3 },
+        { "area": "Customer and digital channels", "m": 6.0 } ] },
+      { "name": "Transform", "meaning": "Change the business", "lines": [
+        { "area": "ERP migration", "m": 8.1 }, { "area": "Payments modernisation", "m": 6.5 },
+        { "area": "Data platform phase 2", "m": 4.0 } ] }
+    ],
+    "priorShare": { "Run": 63, "Grow": 22, "Transform": 15 }
+  },
+
+  "roadmap-delivery-vs-plan": {
+    "programmes": [
+      { "name": "Payments Modernisation", "committed": 9, "onTime": 6 },
+      { "name": "ERP migration", "committed": 8, "onTime": 5 },
+      { "name": "Data Platform Phase 2", "committed": 7, "onTime": 6 },
+      { "name": "Customer portal refresh", "committed": 6, "onTime": 5 },
+      { "name": "Move apps to cloud", "committed": 6, "onTime": 5 },
+      { "name": "Identity and access upgrade", "committed": 5, "onTime": 5 },
+      { "name": "HR Self-Service", "committed": 5, "onTime": 5 },
+      { "name": "Collaboration suite rollout", "committed": 4, "onTime": 4 }
+    ],
+    "late": [
+      { "milestone": "Test environment ready", "programme": "Payments Modernisation", "planned": "2026-09-30", "now": "2026-10-28", "reason": "Test environment delayed" },
+      { "milestone": "Vendor integration complete", "programme": "Payments Modernisation", "planned": "2026-10-15", "now": "2026-11-12", "reason": "Vendor delivery slipped one sprint" },
+      { "milestone": "Go-live readiness review", "programme": "Payments Modernisation", "planned": "2026-10-31", "now": "2026-11-30", "reason": "Depends on vendor integration" },
+      { "milestone": "Finance data migration", "programme": "ERP migration", "planned": "2026-09-30", "now": "2026-11-15", "reason": "Data clean-up took longer" },
+      { "milestone": "Cutover rehearsal 1", "programme": "ERP migration", "planned": "2026-10-15", "now": "2026-12-10", "reason": "Waiting on the data platform" },
+      { "milestone": "Supplier portal build", "programme": "ERP migration", "planned": "2026-10-20", "now": "2026-11-30", "reason": "Not enough people" },
+      { "milestone": "Streaming ingestion live", "programme": "Data Platform Phase 2", "planned": "2026-09-30", "now": "2026-10-20", "reason": "Milestone moved twice" },
+      { "milestone": "Accessibility fixes", "programme": "Customer portal refresh", "planned": "2026-10-12", "now": "2026-10-26", "reason": "Test findings" },
+      { "milestone": "Network connectivity", "programme": "Move apps to cloud", "planned": "2026-10-08", "now": "2026-11-03", "reason": "Vendor lead time" }
+    ],
+    "priorPct": 80
+  },
+
+  "it-spend-as-pct-of-revenue": {
+    "revenueM": [300, 301, 304, 303, 306, 306]
+  },
+
+  "budget-vs-actual-and-forecast-variance": {
+    "categories": [
+      { "name": "Applications and licences", "budgetM": 22.0, "actualM": 22.2 },
+      { "name": "Infrastructure and hosting", "budgetM": 14.0, "actualM": 14.3 },
+      { "name": "Cloud", "budgetM": 6.0, "actualM": 7.0 },
+      { "name": "People and contractors", "budgetM": 13.0, "actualM": 12.9 },
+      { "name": "Projects", "budgetM": 5.0, "actualM": 5.0 }
+    ],
+    "priorVariancePct": 1.4
+  },
+
+  "cloud-spend-and-waste": {
+    "weeklyK": [182, 185, 181, 188, 186, 190, 187, 192, 265, 248, 214, 205],
+    "peakNote": "Week 9: a release on the Payments API raised cost. Most of it has come back down.",
+    "teams": [
+      { "name": "Payments API", "thisWeekK": 49, "fourWeeksAgoK": 36, "idleK": 12 },
+      { "name": "Data platform", "thisWeekK": 48, "fourWeeksAgoK": 48, "idleK": 11 },
+      { "name": "Customer portal", "thisWeekK": 30, "fourWeeksAgoK": 30, "idleK": 6 },
+      { "name": "Collaboration tools", "thisWeekK": 18, "fourWeeksAgoK": 18, "idleK": 3 },
+      { "name": "Everything else", "thisWeekK": 60, "fourWeeksAgoK": 60, "idleK": 11 }
+    ],
+    "monthlyItSpendM": 10.7,
+    "waste": [
+      { "item": "24 idle compute instances", "team": "Payments API", "yearK": 186 },
+      { "item": "9 over-sized databases", "team": "Data platform", "yearK": 92 },
+      { "item": "Unattached storage volumes", "team": "Everything else", "yearK": 64 },
+      { "item": "Test environments left on at night", "team": "Customer portal", "yearK": 41 },
+      { "item": "Unused reserved capacity", "team": "Data platform", "yearK": 38 }
+    ]
+  },
+
+  "contract-renewals-due-6-12-months": {
+    "total": { "count": 23, "valueM": 18.4 },
+    "listed": [
+      { "contract": "ERP licences", "renewal": "2027-06-30", "noticeBy": "2026-12-31", "valueM": 6.4, "priceRise": "9% rise" },
+      { "contract": "Collaboration suite", "renewal": "2027-08-31", "noticeBy": "2027-05-31", "valueM": 2.2, "priceRise": "Capped at inflation" },
+      { "contract": "Observability platform", "renewal": "2027-05-15", "noticeBy": "2027-01-15", "valueM": 1.9, "priceRise": "7% rise" },
+      { "contract": "Cloud support agreement", "renewal": "2027-04-30", "noticeBy": "2027-01-30", "valueM": 1.8, "priceRise": "4% rise" },
+      { "contract": "Security tooling bundle", "renewal": "2027-07-01", "noticeBy": "2027-04-01", "valueM": 1.6, "priceRise": "5% rise" },
+      { "contract": "Network managed service", "renewal": "2027-05-31", "noticeBy": "2027-02-28", "valueM": 1.1, "priceRise": "3% rise" },
+      { "contract": "Service desk platform", "renewal": "2027-09-30", "noticeBy": "2027-06-30", "valueM": 0.9, "priceRise": "No change" },
+      { "contract": "Data warehouse licence", "renewal": "2027-07-31", "noticeBy": "2027-04-30", "valueM": 0.9, "priceRise": "6% rise" }
+    ],
+    "priorCount": 21
+  },
+
+  "deployment-frequency": {
+    "weekly": [38, 41, 36, 44, 40, 43, 39, 45, 31, 37, 41, 46],
+    "teams": [
+      { "name": "Payments", "thisWeek": 12, "lastWeek": 9 },
+      { "name": "Data platform", "thisWeek": 9, "lastWeek": 9 },
+      { "name": "Customer portal", "thisWeek": 8, "lastWeek": 7 },
+      { "name": "Everything else", "thisWeek": 8, "lastWeek": 6 },
+      { "name": "Identity", "thisWeek": 5, "lastWeek": 6 },
+      { "name": "Core ERP", "thisWeek": 4, "lastWeek": 4 }
+    ]
+  },
+
+  "project-health-rag": {
+    "totalProjects": 30,
+    "attention": [
+      { "project": "ERP migration", "reported": "Red", "daysLate": 41, "budgetPct": 9, "note": "Three milestones late" },
+      { "project": "Payments Modernisation", "reported": "Red", "daysLate": 34, "budgetPct": 12, "note": "Test and vendor delays" },
+      { "project": "Mobile app relaunch", "reported": "Red", "daysLate": 28, "budgetPct": 7, "note": "Design sign-off outstanding" },
+      { "project": "Move apps to cloud", "reported": "Amber", "daysLate": 26, "budgetPct": 6, "note": "Vendor lead time" },
+      { "project": "Customer portal refresh", "reported": "Amber", "daysLate": 14, "budgetPct": 3, "note": "Test findings" },
+      { "project": "Billing system upgrade", "reported": "Amber", "daysLate": 12, "budgetPct": 4, "note": "Resource shortage" },
+      { "project": "Network refresh", "reported": "Amber", "daysLate": 9, "budgetPct": 2, "note": "Supplier delay" },
+      { "project": "Data retention project", "reported": "Amber", "daysLate": 8, "budgetPct": 1, "note": "Scope change" },
+      { "project": "Vendor portal", "reported": "Amber", "daysLate": 6, "budgetPct": 0, "note": "Waiting for approval" },
+      { "project": "Data Platform Phase 2", "reported": "Green", "daysLate": 0, "budgetPct": 0, "note": "One milestone moved twice", "atRisk": true },
+      { "project": "Analytics workbench", "reported": "Green", "daysLate": 0, "budgetPct": 0, "note": "Three reports in a row mention delays", "atRisk": true }
+    ],
+    "prior": { "Green": 22, "Amber": 5, "Red": 3 }
+  },
+
+  "technical-debt-trend": {
+    "quarters": ["Q1 FY26", "Q2 FY26", "Q3 FY26", "Q4 FY26", "Q1 FY27", "Q2 FY27"],
+    "ratio": [9.6, 9.1, 8.7, 8.3, 8.0, 7.8],
+    "apps": [
+      { "name": "Payments platform", "now": 12.5, "last": 12.9, "hotspot": "Session handling module" },
+      { "name": "Core ERP", "now": 9.1, "last": 9.4, "hotspot": "Custom reports" },
+      { "name": "Customer portal", "now": 7.4, "last": 7.6, "hotspot": "Legacy checkout screens" },
+      { "name": "Data platform", "now": 6.2, "last": 6.4, "hotspot": "Old batch jobs" },
+      { "name": "Identity service", "now": 5.8, "last": 6.0, "hotspot": "Password reset flow" },
+      { "name": "Collaboration integrations", "now": 5.8, "last": 5.7, "hotspot": "Connector library" }
+    ]
+  },
+
+  "availability-vs-sla-critical-services": {
+    "target": 99.95,
+    "days": 84,
+    "services": [
+      { "name": "Payments", "uptime": 99.88 },
+      { "name": "Customer portal", "uptime": 99.94 },
+      { "name": "Core ERP", "uptime": 99.97 },
+      { "name": "Email", "uptime": 99.99 }
+    ],
+    "priorMeeting": 3
+  },
+
+  "p1-p2-incidents-and-mttr": {
+    "incidents": [9, 11, 8, 10, 9, 12, 10, 11, 19, 15, 13, 14],
+    "mttrHours": [2.6, 2.8, 2.5, 2.7, 2.4, 2.9, 2.6, 2.8, 4.6, 4.1, 3.4, 3.1],
+    "largest": [
+      { "id": "INC-48211", "service": "Payments", "started": "2026-10-06", "hours": 5.4, "cause": "Login timeout after release R-214" },
+      { "id": "INC-48230", "service": "Payments", "started": "2026-10-08", "hours": 4.1, "cause": "Login timeout after release R-214" },
+      { "id": "INC-48302", "service": "Customer portal", "started": "2026-10-12", "hours": 3.6, "cause": "Database connection limit" },
+      { "id": "INC-48377", "service": "Core ERP", "started": "2026-10-14", "hours": 2.8, "cause": "Vendor patch" },
+      { "id": "INC-48410", "service": "Email", "started": "2026-10-16", "hours": 1.2, "cause": "Mail queue backlog" }
+    ],
+    "repeat": [
+      { "problem": "Payments login timeouts", "tickets": 7, "link": "Release R-214" },
+      { "problem": "Batch job failures", "tickets": 4, "link": "Vendor patch in week 8" },
+      { "problem": "VPN drops", "tickets": 3, "link": "No link found yet" }
+    ]
+  },
+
+  "critical-vulnerabilities-open-patch-sla": {
+    "listed": [
+      { "asset": "Payments gateway", "exposure": "Internet-facing", "exploit": "Yes", "daysOpen": 24, "deadline": "Past deadline" },
+      { "asset": "Identity server", "exposure": "Internal", "exploit": "Yes", "daysOpen": 9, "deadline": "Due in 4 days" },
+      { "asset": "VPN gateway", "exposure": "Internet-facing", "exploit": "No", "daysOpen": 8, "deadline": "Within deadline" },
+      { "asset": "Customer portal web server", "exposure": "Internet-facing", "exploit": "No", "daysOpen": 7, "deadline": "Within deadline" },
+      { "asset": "Reporting server", "exposure": "Internal", "exploit": "No", "daysOpen": 12, "deadline": "Within deadline" },
+      { "asset": "File server", "exposure": "Internal", "exploit": "No", "daysOpen": 6, "deadline": "Within deadline" },
+      { "asset": "Build server", "exposure": "Internal", "exploit": "No", "daysOpen": 5, "deadline": "Within deadline" },
+      { "asset": "Test database", "exposure": "Internal", "exploit": "No", "daysOpen": 3, "deadline": "Within deadline" }
+    ],
+    "others": 9,
+    "patched": { "withinSla": 83, "total": 94 },
+    "priorOpen": 18
+  },
+
+  "mfa-and-privileged-access-coverage": {
+    "groups": [
+      { "name": "Employees", "accounts": 8400, "covered": 8148 },
+      { "name": "Contractors", "accounts": 1300, "covered": 1131 },
+      { "name": "Privileged accounts", "accounts": 400, "covered": 361, "privileged": true }
+    ],
+    "priorPct": 94.5
+  },
+
+  "audit-findings-open-and-overdue": {
+    "findings": [
+      { "id": "AUD-101", "title": "Quarterly access review not completed", "severity": "High", "ageDays": 118, "due": "2026-07-31", "owner": "IT Operations", "theme": "Access reviews" },
+      { "id": "AUD-104", "title": "Leavers keep access for more than 30 days", "severity": "High", "ageDays": 96, "due": "2026-08-31", "owner": "HR and IT", "theme": "Access reviews" },
+      { "id": "AUD-109", "title": "Backup restore test not evidenced", "severity": "High", "ageDays": 41, "due": "2026-11-30", "owner": "Infrastructure", "theme": "Backup testing" },
+      { "id": "AUD-088", "title": "Admin access not reviewed for two systems", "severity": "Medium", "ageDays": 104, "due": "2026-08-15", "owner": "Security", "theme": "Access reviews" },
+      { "id": "AUD-092", "title": "Disaster recovery test missed for payments", "severity": "Medium", "ageDays": 88, "due": "2026-09-15", "owner": "Infrastructure", "theme": "Backup testing" },
+      { "id": "AUD-095", "title": "Vendor risk reviews out of date", "severity": "Medium", "ageDays": 71, "due": "2026-10-01", "owner": "Procurement", "theme": "Third parties" },
+      { "id": "AUD-112", "title": "Change approvals missing for four releases", "severity": "Medium", "ageDays": 33, "due": "2026-12-15", "owner": "Engineering", "theme": "Change control" },
+      { "id": "AUD-114", "title": "Policy exceptions not reviewed", "severity": "Medium", "ageDays": 28, "due": "2027-01-15", "owner": "Risk", "theme": "Policies" },
+      { "id": "AUD-117", "title": "Asset inventory has gaps", "severity": "Low", "ageDays": 22, "due": "2027-01-31", "owner": "IT Operations", "theme": "Inventory" },
+      { "id": "AUD-118", "title": "Training records incomplete", "severity": "Low", "ageDays": 19, "due": "2027-02-15", "owner": "HR", "theme": "Policies" },
+      { "id": "AUD-120", "title": "Old test accounts still active", "severity": "Low", "ageDays": 12, "due": "2027-02-28", "owner": "Security", "theme": "Access reviews" }
+    ],
+    "priorOverdue": 7
+  },
+
+  "end-of-life-legacy-footprint": {
+    "totalSystems": 410,
+    "byType": [
+      { "type": "Operating systems", "count": 14 },
+      { "type": "Databases", "count": 9 },
+      { "type": "Applications", "count": 11 },
+      { "type": "Network devices", "count": 4 }
+    ],
+    "listed": [
+      { "system": "Windows Server 2012 (file servers)", "type": "Operating systems", "supportEnded": "2023-10-10", "importance": "High", "plan": "Replace by Mar 2027", "owner": "Infrastructure" },
+      { "system": "Oracle 11g (ERP reporting)", "type": "Databases", "supportEnded": "2022-12-31", "importance": "High", "plan": "Upgrade with ERP migration", "owner": "Core ERP" },
+      { "system": "Payroll application v6", "type": "Applications", "supportEnded": "2024-06-30", "importance": "High", "plan": "Replace by Jun 2027", "owner": "HR systems" },
+      { "system": "Red Hat Linux 6 (batch servers)", "type": "Operating systems", "supportEnded": "2020-11-30", "importance": "Medium", "plan": "Move to Linux 9", "owner": "Infrastructure" },
+      { "system": "SQL Server 2014 (data marts)", "type": "Databases", "supportEnded": "2024-07-09", "importance": "Medium", "plan": "Move to cloud database", "owner": "Data platform" },
+      { "system": "Branch routers (45 devices)", "type": "Network devices", "supportEnded": "2025-01-31", "importance": "Medium", "plan": "Refresh in Q1 FY27", "owner": "Network" },
+      { "system": "Expense portal", "type": "Applications", "supportEnded": "2024-03-31", "importance": "Low", "plan": "Retire", "owner": "Finance systems" },
+      { "system": "Old intranet CMS", "type": "Applications", "supportEnded": "2023-12-31", "importance": "Low", "plan": "Retire", "owner": "Digital" }
+    ],
+    "priorCount": 41
+  },
+
+  "application-portfolio-time": {
+    "categories": [
+      { "key": "Invest", "meaning": "Keep and grow", "count": 44, "costM": 31.2, "apps": [
+        { "name": "Customer mobile app", "area": "Digital", "costK": 1450, "users": "210,000", "action": "Add features" },
+        { "name": "Payments platform", "area": "Payments", "costK": 2800, "users": "Customers", "action": "Modernise (in progress)" },
+        { "name": "CRM", "area": "Sales", "costK": 1900, "users": "1,800", "action": "Add AI assistant" },
+        { "name": "Data platform", "area": "Data", "costK": 2200, "users": "950", "action": "Phase 2 under way" },
+        { "name": "Identity service", "area": "Security", "costK": 900, "users": "All staff", "action": "Upgrade" },
+        { "name": "E-commerce site", "area": "Digital", "costK": 1700, "users": "Customers", "action": "Improve search" } ] },
+      { "key": "Tolerate", "meaning": "Keep running, no new spend", "count": 76, "costM": 24.8, "apps": [
+        { "name": "Warehouse scheduling", "area": "Operations", "costK": 540, "users": "120", "action": "Keep as is" },
+        { "name": "Fleet tracking", "area": "Operations", "costK": 380, "users": "75", "action": "Keep as is" },
+        { "name": "Legal case tracker", "area": "Legal", "costK": 210, "users": "40", "action": "Review in 12 months" },
+        { "name": "Facilities booking", "area": "Workplace", "costK": 150, "users": "2,200", "action": "Keep as is" },
+        { "name": "Training portal", "area": "HR", "costK": 260, "users": "3,400", "action": "Keep as is" },
+        { "name": "Document archive", "area": "Finance", "costK": 330, "users": "300", "action": "Keep as is" } ] },
+      { "key": "Migrate", "meaning": "Move to a better platform", "count": 25, "costM": 9.6, "apps": [
+        { "name": "Core ERP", "area": "Finance", "costK": 4100, "users": "2,600", "action": "Move to new ERP" },
+        { "name": "Reporting server", "area": "Finance", "costK": 620, "users": "480", "action": "Move to the data platform" },
+        { "name": "HR case system", "area": "HR", "costK": 410, "users": "90", "action": "Move to HR Self-Service" },
+        { "name": "Supplier portal", "area": "Procurement", "costK": 350, "users": "1,100", "action": "Move to the ERP portal" },
+        { "name": "Branch file shares", "area": "Workplace", "costK": 280, "users": "1,900", "action": "Move to cloud storage" },
+        { "name": "Batch scheduler", "area": "Operations", "costK": 240, "users": "35", "action": "Move to cloud scheduler" } ] },
+      { "key": "Eliminate", "meaning": "Retire", "count": 5, "apps": [
+        { "name": "Expense portal", "area": "Finance", "costK": 380, "users": "1,400", "action": "Retire by Mar 2027" },
+        { "name": "Old intranet CMS", "area": "Digital", "costK": 260, "users": "3,100", "action": "Retire by Dec 2026" },
+        { "name": "Print management suite", "area": "Workplace", "costK": 190, "users": "2,700", "action": "Retire by Jan 2027" },
+        { "name": "Survey tool (legacy)", "area": "Marketing", "costK": 160, "users": "60", "action": "Retire by Nov 2026" },
+        { "name": "Visitor badge system", "area": "Workplace", "costK": 110, "users": "40", "action": "Retire by Feb 2027" } ] }
+    ],
+    "priorEliminate": 7
+  },
+
+  "ai-use-cases-by-stage": {
+    "counts": { "Ideas": 24, "Pilots": 11, "In production": 6 },
+    "duplicates": 3,
+    "priorProduction": 5,
+    "stages": [
+      { "key": "In production", "rows": [
+        { "useCase": "Claims triage", "area": "Insurance operations", "owner": "Claims lead", "note": "Live since Mar 2026" },
+        { "useCase": "Contract review", "area": "Legal", "owner": "General counsel", "note": "Live since Apr 2026" },
+        { "useCase": "Support deflection", "area": "Customer service", "owner": "Service director", "note": "Live since May 2026" },
+        { "useCase": "Code assistant", "area": "Engineering", "owner": "Engineering lead", "note": "Live since May 2026" },
+        { "useCase": "Demand forecasting", "area": "Supply chain", "owner": "Supply chain lead", "note": "Live since Jul 2026" },
+        { "useCase": "Document search", "area": "Shared services", "owner": "Operations lead", "note": "Live since Sep 2026" } ] },
+      { "key": "Pilots", "rows": [
+        { "useCase": "Invoice matching", "area": "Finance", "owner": "Finance lead", "note": "Pilot ends Nov 2026" },
+        { "useCase": "Incident summaries", "area": "IT operations", "owner": "Operations", "note": "Pilot ends Dec 2026" },
+        { "useCase": "Sales call notes", "area": "Sales", "owner": "Sales lead", "note": "Pilot ends Nov 2026" },
+        { "useCase": "Policy question answering", "area": "HR", "owner": "HR lead", "note": "Pilot ends Jan 2027" },
+        { "useCase": "Fraud alert triage", "area": "Payments", "owner": "Risk", "note": "Pilot ends Dec 2026" },
+        { "useCase": "Test case generation", "area": "Engineering", "owner": "Engineering lead", "note": "Pilot ends Nov 2026" } ] },
+      { "key": "Ideas", "rows": [
+        { "useCase": "Meeting minutes", "area": "Shared services", "owner": "Operations lead", "note": "Duplicate of another idea" },
+        { "useCase": "Customer churn prediction", "area": "Marketing", "owner": "Marketing lead", "note": "Waiting for data check" },
+        { "useCase": "Supplier risk alerts", "area": "Procurement", "owner": "Procurement lead", "note": "Waiting for funding" },
+        { "useCase": "Onboarding assistant", "area": "HR", "owner": "HR lead", "note": "Duplicate of another idea" },
+        { "useCase": "Energy usage forecasting", "area": "Facilities", "owner": "Facilities lead", "note": "Early idea" },
+        { "useCase": "Contract clause search", "area": "Legal", "owner": "General counsel", "note": "Duplicate of Contract review" } ] }
+    ]
+  },
+
+  "ai-adoption-and-realised-value": {
+    "useCases": [
+      { "useCase": "Claims triage", "users": 310, "benefitK": 700, "basis": "Measured" },
+      { "useCase": "Contract review", "users": 140, "benefitK": 600, "basis": "Measured" },
+      { "useCase": "Support deflection", "users": 280, "benefitK": 520, "basis": "Self-reported" },
+      { "useCase": "Code assistant", "users": 220, "benefitK": 480, "basis": "Self-reported" },
+      { "useCase": "Document search", "users": 230, "benefitK": 280, "basis": "Self-reported" },
+      { "useCase": "Demand forecasting", "users": 60, "benefitK": 360, "basis": "Self-reported" }
+    ],
+    "priorUsers": 1137,
+    "priorMeasuredM": 1.1
+  }
+}
